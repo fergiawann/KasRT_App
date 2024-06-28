@@ -11,17 +11,16 @@ class ChatActivity : AppCompatActivity() {
         setContentView(R.layout.activity_chat)
 
         intent = intent
-        firebaseUser = FirebaseAuth.getInstance().currentUser
-
-        send_button.setOnclickListener{
-            val message = text_message.text.toString()
-            if (message == "") {
-                Toast.makeText(this@ChatActivity, "Please write a message first... ", Toast.LENGTH_SHORT).show()
-
-            }
-            else {
-                sendMessageToUser(firebaseUser!!)
-            }
+//        firebaseUser = FirebaseAuth.getInstance().currentUser
+//
+//        send_button.setOnclickListener{
+//            val message = text_message.text.toString()
+//            if (message == "") {
+//                Toast.makeText(this@ChatActivity, "Please write a message first... ", Toast.LENGTH_SHORT).show()
+//
+//            }
+//            else {
+//                sendMessageToUser(firebaseUser!!)
+//            }
         }
     }
-}
