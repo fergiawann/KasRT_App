@@ -4,11 +4,9 @@ import android.content.Intent
 import android.os.Bundle
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
-import androidx.fragment.app.commit
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.cobafirebase.adapter.RvContactsAdapter
 import com.example.cobafirebase.databinding.FragmentHomeBinding
-import com.example.cobafirebase.ProfilWarga
 import com.example.cobafirebase.models.Contacts
 import com.google.firebase.database.*
 
@@ -16,6 +14,7 @@ class DataWarga : AppCompatActivity() {
     private lateinit var binding: FragmentHomeBinding
     private lateinit var contactsList: ArrayList<Contacts>
     private lateinit var firebaseRef: DatabaseReference
+    private lateinit var userRef: DatabaseReference
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,6 +28,7 @@ class DataWarga : AppCompatActivity() {
 
         firebaseRef = FirebaseDatabase.getInstance().getReference("contacts")
         contactsList = arrayListOf()
+        userRef = FirebaseDatabase.getInstance().getReference("kas")
 
         fetchData()
 
@@ -50,9 +50,11 @@ class DataWarga : AppCompatActivity() {
                         }
                     }
                 }
+
                 val rvAdapter = RvContactsAdapter(contactsList) { selectedContact ->
                     val intent = Intent(this@DataWarga, ProfilWarga::class.java).apply {
                         putExtra("selected_contact", selectedContact)
+
                     }
                     startActivity(intent)
                 }
@@ -61,7 +63,7 @@ class DataWarga : AppCompatActivity() {
             }
 
             override fun onCancelled(error: DatabaseError) {
-                Toast.makeText(this@DataWarga, "Error: $error", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this@DataWarga, "Error: ${error.message}", Toast.LENGTH_SHORT).show()
             }
         })
     }

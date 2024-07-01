@@ -1,15 +1,10 @@
 // RvContactsAdapter.kt
 package com.example.cobafirebase.adapter
 
-import android.app.AlertDialog
-import android.content.DialogInterface
-import android.content.Intent
 import android.view.LayoutInflater
 import android.view.ViewGroup
 import android.widget.Toast
-import androidx.navigation.Navigation.findNavController
 import androidx.recyclerview.widget.RecyclerView
-import com.example.cobafirebase.ChatActivity
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.storage.FirebaseStorage

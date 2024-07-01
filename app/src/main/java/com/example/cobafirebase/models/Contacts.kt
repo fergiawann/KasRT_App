@@ -1,4 +1,3 @@
-// Contacts.kt
 package com.example.cobafirebase.models
 
 import android.os.Parcel
@@ -11,7 +10,8 @@ data class Contacts(
     val email: String? = null,
     val alamat: String? = null,
     val jabatan: String? = null,
-    val imgUri: String? = null
+    val imgUri: String? = null,
+    val kasList: List<Kas>? = null  // Menambahkan field untuk daftar kas warga
 ) : Parcelable {
     constructor(parcel: Parcel) : this(
         parcel.readString(),
@@ -20,7 +20,8 @@ data class Contacts(
         parcel.readString(),
         parcel.readString(),
         parcel.readString(),
-        parcel.readString()
+        parcel.readString(),
+        parcel.createTypedArrayList(Kas)  // Menambahkan pembacaan dari parcel untuk kasList
     )
 
     override fun writeToParcel(parcel: Parcel, flags: Int) {
@@ -31,6 +32,7 @@ data class Contacts(
         parcel.writeString(alamat)
         parcel.writeString(jabatan)
         parcel.writeString(imgUri)
+        parcel.writeTypedList(kasList)  // Menambahkan penulisan ke parcel untuk kasList
     }
 
     override fun describeContents(): Int {

@@ -14,7 +14,10 @@ import androidx.fragment.app.Fragment
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.example.cobafirebase.DataWarga
+import com.example.cobafirebase.DetailNews
+import com.example.cobafirebase.KasWarga
 import com.example.cobafirebase.R
+import com.example.cobafirebase.models.News
 import java.util.Timer
 import java.util.TimerTask
 
@@ -45,40 +48,41 @@ class FragmentHome : Fragment() {
             startActivity(intent)
         }
 
+        val buttonPembayaran: CardView = view.findViewById(R.id.buttonPembayaran)
+        buttonPembayaran.setOnClickListener {
+            val intent = Intent(requireContext(), KasWarga::class.java)
+            startActivity(intent)
+        }
+
+        val buttonInformasi: CardView = view.findViewById(R.id.buttonInformasi)
+        buttonInformasi.setOnClickListener {
+            val fragment = DashboardFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.fr_container, fragment)
+                .addToBackStack(null)  // Optional, untuk bisa kembali ke fragment sebelumnya
+                .commit()
+            // Ganti fragmen di bagian bawah
+            replaceBottomMenuFragment(FragmentHome())
+        }
+
+        val buttonLaporan: CardView = view.findViewById(R.id.buttonLaporan)
+        buttonLaporan.setOnClickListener {
+            val fragment = NotifFragment()
+            parentFragmentManager.beginTransaction()
+                .replace(R.id.rvNotifications, fragment)
+                .addToBackStack(null)  // Optional, untuk bisa kembali ke fragment sebelumnya
+                .commit()
+        }
+
+
         // Start auto sliding.
         startAutoSlider()
+    }
 
-        // Detect swipe gestures manually.
-        val gestureDetector = GestureDetector(requireContext(), object : GestureDetector.SimpleOnGestureListener() {
-            override fun onDown(e: MotionEvent): Boolean {
-                stopAutoSlider() // Stop auto sliding when user interacts with the ViewPager.
-                return true
-            }
-
-            override fun onScroll(
-                e1: MotionEvent?,
-                e2: MotionEvent,
-                distanceX: Float,
-                distanceY: Float
-            ): Boolean {
-                if (e1 != null && e2 != null) {
-                    if (e1.x < e2.x) {
-                        // Swipe left.
-                        viewPager.currentItem = viewPager.currentItem - 1
-                    } else if (e1.x > e2.x) {
-                        // Swipe right.
-                        viewPager.currentItem = viewPager.currentItem + 1
-                    }
-                    startAutoSlider() // Restart auto sliding after manual swipe.
-                }
-                return super.onScroll(e1, e2, distanceX, distanceY)
-            }
-        })
-
-        viewPager.setOnTouchListener { v, event ->
-            gestureDetector.onTouchEvent(event) // Detect touch events.
-            false
-        }
+    private fun replaceBottomMenuFragment(fragment: Fragment) {
+        childFragmentManager.beginTransaction()
+            .replace(R.id.menu_fragment_container, fragment)
+            .commit()
     }
 
     private fun startAutoSlider() {
@@ -106,7 +110,11 @@ class FragmentHome : Fragment() {
 
     inner class SliderAdapter : RecyclerView.Adapter<SliderAdapter.SliderViewHolder>() {
 
-        private val images = intArrayOf(R.drawable.banner_welcome, R.drawable.banner_welcome, R.drawable.banner_welcome)
+        private val images = intArrayOf(
+            R.drawable.banner_welcome,
+            R.drawable.gotong_royong2,
+            R.drawable.agustusan
+        )
 
         override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SliderViewHolder {
             val view = LayoutInflater.from(parent.context).inflate(R.layout.home_fragment, parent, false)
@@ -115,10 +123,17 @@ class FragmentHome : Fragment() {
 
         override fun onBindViewHolder(holder: SliderViewHolder, position: Int) {
             val imageResId = images[position]
-            when (position) {
-                0 -> holder.imageView1.setImageResource(imageResId)
-                1 -> holder.imageView2.setImageResource(imageResId)
-                2 -> holder.imageView3.setImageResource(imageResId)
+            holder.bind(imageResId)
+            holder.itemView.setOnClickListener {
+                // Handle click on image slider
+                // You can fetch corresponding news data from Firebase and pass it to DetailNews activity
+                val selectedNews = fetchNewsData(position) // Fetch the news data based on position
+                selectedNews?.let {
+                    val intent = Intent(holder.itemView.context, DetailNews::class.java).apply {
+                        putExtra("selected_news", it)
+                    }
+                    holder.itemView.context.startActivity(intent)
+                }
             }
         }
 
@@ -127,10 +142,27 @@ class FragmentHome : Fragment() {
         }
 
         inner class SliderViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-            val imageView1: ImageView = itemView.findViewById(R.id.sliderImage1)
-            val imageView2: ImageView = itemView.findViewById(R.id.sliderImage2)
-            val imageView3: ImageView = itemView.findViewById(R.id.sliderImage3)
+            private val imageView1: ImageView = itemView.findViewById(R.id.sliderImage1)
+            private val imageView2: ImageView = itemView.findViewById(R.id.sliderImage2)
+            private val imageView3: ImageView = itemView.findViewById(R.id.sliderImage3)
+
+            fun bind(imageResId: Int) {
+                imageView1.setImageResource(imageResId)
+                imageView2.setImageResource(imageResId)
+                imageView3.setImageResource(imageResId)
+            }
+        }
+
+        private fun fetchNewsData(position: Int): News? {
+            // Replace this with your actual logic to fetch news data from Firebase or wherever you store it
+            // For simplicity, returning hardcoded news data
+            val newsList = arrayListOf(
+                News("News 1 Title", "News 1 Description", "https://example.com/news1.jpg"),
+                News("News 2 Title", "News 2 Description", "https://example.com/news2.jpg"),
+                News("News 3 Title", "News 3 Description", "https://example.com/news3.jpg")
+            )
+            return if (position < newsList.size) newsList[position] else null
         }
     }
-}
 
+}
