@@ -46,7 +46,7 @@ Dan ini tampilan dari menu tambah pengumuman, jika kita ingin menambahkan pengum
 
 ![ss10](https://github.com/fergiawann/KasRT_App/assets/115530180/0a97c423-3cd9-4feb-945a-94fceeb41492)
 
-## Tampilan Dari Pembayaran Iuran
+## Tampilan Dari Menu Pembayaran Iuran
 ![ss7](https://github.com/fergiawann/KasRT_App/assets/115530180/403982cd-0acf-4c2f-a610-31dc07231a02)
 
 Ketika kita ingin melakukan pembayaran kas, kita di haruskan untuk memilih warganya terlebih dahulu
