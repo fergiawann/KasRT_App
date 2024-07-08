@@ -20,7 +20,7 @@ Silahkan isi semua datanya lalu jika sudah maka klik Daftar Sekarang dan akan di
 ![ss13](https://github.com/fergiawann/KasRT_App/assets/115530180/4505e081-dc86-4251-ad3c-83222df54031)
 
 ## Tampilan Menu Utama Aplikasi
-Pada Aplikasi ini kita membuat 4 menu utama, yaitu Data Warga, Broadcast Informasi, Pembayaran Iuran, dan Laporan Keuangan. untuk detail tampilan dan fungsinya akan di jelaskan dibawah.
+Pada Aplikasi ini kita punya slider image yang bergerak ke samping di bagian atas aplikasi untuk menampilkan banner atau informasi singkat yang kita inginkan dan kita membuat 4 menu utama, yaitu Data Warga, Broadcast Informasi, Pembayaran Iuran, dan Laporan Keuangan. untuk detail tampilan dan fungsinya akan di jelaskan dibawah.
 
 ![ss1](https://github.com/fergiawann/KasRT_App/assets/115530180/113947da-6405-44fd-850d-fef33a94834b)
 
